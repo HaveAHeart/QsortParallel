@@ -6,16 +6,16 @@ import kotlin.random.Random
 
 class QsortUnitTests {
     private val itemsAmount = 1000000
-    private val iterAmount = 10
+    private val iterAmount = 1
 
     @Test
-    fun test1() {
+    fun usualTest() {
         var delta: Long = 0
 
         for (i in 1..iterAmount) {
             val a = mutableListOf<Int>()
             for (j in 1..itemsAmount) a.add(Random.nextInt(-1000, 1000))
-            val z = Qsort(itemsAmount)
+            val z = Qsort()
             val timeStart = System.currentTimeMillis()
             val res = z.stSorting(a)
             val timeFinish = System.currentTimeMillis()
@@ -29,30 +29,12 @@ class QsortUnitTests {
     }
 
     @Test
-    fun test2() {
+    fun parallelTest() {
         doTests(2)
-    }
-
-    @Test
-    fun test4() {
         doTests(4)
-    }
-
-    @Test
-    fun test5() {
         doTests(5)
-    }
-
-    @Test
-    fun test6() {
         doTests(6)
-    }
-    @Test
-    fun test8() {
         doTests(8)
-    }
-    @Test
-    fun test16() {
         doTests(16)
     }
 
@@ -67,9 +49,9 @@ class QsortUnitTests {
         for (i in 1..iterAmount) {
             val a = mutableListOf<Int>()
             for (j in 1..itemsAmount) a.add(Random.nextInt(-1000, 1000))
-            val z = Qsort(itemsAmount)
+            val z = Qsort()
             val timeStart = System.currentTimeMillis()
-            val res = z.mtSorting(a, Executors.newFixedThreadPool(threadsAmount), itemsAmount)
+            val res = z.mtSorting(a, Executors.newFixedThreadPool(threadsAmount))
             val timeFinish = System.currentTimeMillis()
             delta += (timeFinish - timeStart)
             assert(isSorted(a))
