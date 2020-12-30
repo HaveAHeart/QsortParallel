@@ -14,10 +14,11 @@ import java.util.concurrent.Executors;
 
 @BenchmarkMode(Mode.All)
 @Warmup(iterations = 5)
-@Measurement(iterations = 1, batchSize = 1)
+@Measurement(iterations = 5, batchSize = 1)
 public class BMTest {
     public static Integer itemsAmount = 100000;
     public static Qsort inst = new Qsort();
+
 
     public static List<Integer> generateData(Integer size) {
         List<Integer> a = new ArrayList<>();
@@ -31,8 +32,11 @@ public class BMTest {
     public static class BenchMarkState {
         public List<Integer> dataset = generateData(itemsAmount);
 
-
+        @Setup(Level.Invocation)
+        public void doSetup() { dataset = generateData(itemsAmount); }
     }
+
+
 
     @Benchmark
     public void oneThreadQSort(Blackhole blackhole, BenchMarkState state) {
